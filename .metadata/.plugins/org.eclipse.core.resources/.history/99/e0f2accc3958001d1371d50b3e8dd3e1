@@ -1,0 +1,17 @@
+package servidor;
+
+public abstract class Control {
+	
+	
+	public final synchronized void espera() {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt(); 
+                System.err.println("Interrupción");
+            }
+        
+	}	
+	
+
+}

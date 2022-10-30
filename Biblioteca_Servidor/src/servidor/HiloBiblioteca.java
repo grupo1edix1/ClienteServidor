@@ -22,6 +22,8 @@ public class HiloBiblioteca implements Runnable{
 		this.biblioteca=biblioteca;
 	}
 			
+
+			
 	public void run(){
 		System.out.println("Estableciendo comunicacion con " + hilo.getName());
 		PrintStream salida = null;
@@ -44,24 +46,31 @@ public class HiloBiblioteca implements Runnable{
 				switch(instruction) {
 				case 1:
 					String isbn = order[1];
-					salida = new PrintStream(socketAlCliente.getOutputStream());
+					try {
 					System.out.println("SERVIDOR: El resultado: " + biblioteca.findIsbn(isbn).toString());
 					salida.println(biblioteca.findIsbn(isbn).toString());
+					}catch(Exception e) {
+						salida.println("No se encontró el libro");
+					}
 					break;					
 				case 2:
-					String titulo = order[1];
-					salida = new PrintStream(socketAlCliente.getOutputStream());
+					String titulo = order[1];					
 					System.out.println("SERVIDOR: El resultado: " + biblioteca.findTitulo(titulo).toString());
 					salida.println(biblioteca.findTitulo(titulo).toString());
 					break;					
 				case 3:
 					String nombre = order[1];
-					String apellido = order[2];
-					salida = new PrintStream(socketAlCliente.getOutputStream());
+					String apellido = order[2];					
 					System.out.println("SERVIDOR: El resultado: " + biblioteca.findAutor(nombre, apellido).bibliografiaToString());
 					salida.println(biblioteca.findAutor(nombre, apellido).bibliografiaToString());
 					break;
 				case 4:					
+					System.out.println("Recibiendo información de Cliente_" + numCliente);
+					
+					salida.println(biblioteca.permiso());
+					
+					String texto2 = entradaBuffer.readLine();
+					order = texto2.split("-");
 					String isbnAdd = order[1];
 					String tituloAdd = order[2];
 					Libro libro;
@@ -80,10 +89,10 @@ public class HiloBiblioteca implements Runnable{
 						}
 					}else {
 						libro = new Libro(tituloAdd, isbnAdd);
-					}					
-					biblioteca.addLibro(libro);
+					}
+					
+					biblioteca.addLibro(libro);					
 					System.out.println("Libro añadido:" + biblioteca.findIsbn(isbnAdd).toString());
-					notify();
 					break;
 				default:
 					salida.println("No válido");
@@ -100,6 +109,5 @@ public class HiloBiblioteca implements Runnable{
 	}
 		
 	}
-	
 
 }

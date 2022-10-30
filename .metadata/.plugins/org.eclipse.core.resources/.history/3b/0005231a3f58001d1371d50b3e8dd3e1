@@ -1,0 +1,72 @@
+package biblioteca;
+import java.util.*;
+
+public class Biblioteca {
+	private ArrayList<Libro> biblioteca = new ArrayList<Libro>();
+	
+	public Biblioteca() {
+		Autor autor1 = new Autor("Joseph", "Conrad");
+		Autor autor2 = new Autor("Herman", "Melville");
+		Autor autor3 = new Autor("Stephen", "King");
+		Libro libro3 = new Libro ("Ojos de Fuego", "3333", autor3);
+		Libro libro2 = new Libro ("Moby Dick", "2222", autor2);
+		Libro libro1 = new Libro ("El Corazón de las Tinieblas", "1111", autor1);
+		Libro libro4 = new Libro ("Rabia", "4444", autor3);
+		addLibro(libro1);
+		addLibro(libro2);
+		addLibro(libro3);
+		addLibro(libro4);
+	}
+	
+	public synchronized void addLibro(Libro libro) {
+		this.biblioteca.add(libro);
+		notify();
+	}
+	
+	public Libro findTitulo(String titulo){
+		Libro libro = null;
+		for (Libro element : this.biblioteca) {
+			if (titulo.equalsIgnoreCase(element.getNombre())) {
+				libro = element; 			
+		}
+	}
+		return libro;
+	}
+	
+	public Libro findIsbn(String isbn){
+		Libro libro = null;
+		for (Libro element : this.biblioteca) {
+			if (isbn.equalsIgnoreCase(element.getIsbn())) {
+				libro = element; 			
+		}
+	}
+		return libro;
+	}
+	
+	public Autor findAutor(String autorNombre, String autorApellido){
+		Autor autor = null;
+		for (Libro element : this.biblioteca) {
+			if (autorNombre.equalsIgnoreCase(element.getAutor().getNombre()) && autorApellido.equalsIgnoreCase(element.getAutor().getApellido())) {
+				autor = element.getAutor(); 			
+		}
+	}
+		return autor;
+	}
+	
+	public synchronized String aceptarPeticion() {
+		return "Y";
+	}
+	
+	//Getters
+	public ArrayList<Libro> getBiblioteca() {
+		return biblioteca;
+	}
+	
+	
+	//Setters
+	public void setBiblioteca(ArrayList<Libro> biblioteca) {
+		this.biblioteca = biblioteca;
+	}
+		
+
+}

@@ -3,6 +3,7 @@ import java.util.*;
 
 public class Biblioteca {
 	private ArrayList<Libro> biblioteca = new ArrayList<Libro>();
+	private boolean transfer;
 	
 	public Biblioteca() {
 		Autor autor1 = new Autor("Joseph", "Conrad");
@@ -18,8 +19,26 @@ public class Biblioteca {
 		addLibro(libro4);
 	}
 	
+	public synchronized String permiso() {
+        while (transfer) {
+            try {
+            	
+                wait();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt(); 
+                System.err.println("Thread Interrupted");
+            }
+        }
+        transfer = true;
+        
+        String returnPacket = "Introduzca los datos...";        
+        return returnPacket;
+    }
+	
 	public synchronized void addLibro(Libro libro) {
 		this.biblioteca.add(libro);
+		transfer = false;
+		notify();
 	}
 	
 	public Libro findTitulo(String titulo){

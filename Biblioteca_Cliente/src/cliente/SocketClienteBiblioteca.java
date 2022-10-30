@@ -69,8 +69,11 @@ public class SocketClienteBiblioteca {
 					String respuestaAutor = entradaBuffer.readLine();
 					System.out.println("CLIENTE: Servidor responde, este es el libro: " + respuestaAutor);
 					break;
-				case 4:					
-					entradaBuffer.readLine();					
+				case 4:
+					salida.println("4");
+					System.out.println("Esperando respuesta SERVIDOR");
+					String permiso = entradaBuffer.readLine();
+					System.out.println(permiso);
 					System.out.println("Introduzca ISBN");
 					String isbnIN = scan.nextLine();
 					System.out.println("Introduzca Título");
