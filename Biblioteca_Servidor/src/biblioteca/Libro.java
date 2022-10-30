@@ -1,17 +1,20 @@
 //Actualización 30/10
 package biblioteca;
 
+// Clase libro qu ealmacena nombre, isbn, autor.
 public class Libro {
 	private String nombre;
 	private String isbn;
 	private Autor autor;
 	
+	// Constructor
 	public Libro() {
 		this.nombre="nombre";
 		this.isbn="XXXXXXXXXX";
 		this.autor=new Autor();
 	}
 	
+	// Constructor
 	public Libro(String nombre,String isbn,Autor autor) {
 		this.nombre=nombre;
 		this.isbn=isbn;
@@ -19,11 +22,13 @@ public class Libro {
 		this.autor.addLibro(this);
 	}
 	
+	// Constructor
 	public Libro(String nombre,String isbn) {
 		this.nombre=nombre;
 		this.isbn=isbn;
 	}
 	
+	// Métodos get and set
 	public Autor getAutor() {
 		return autor;
 	}
@@ -43,9 +48,14 @@ public class Libro {
 		this.isbn = isbn;
 	}
 
+	// Método to string en el que se controla si hay algun autor 
 	@Override
 	public String toString() {
-		return "Libro [nombre=" + nombre + ", isbn=" + isbn + ", autor=" + autor.toString() + "]";
+		String string = "Titulo: " + nombre + ", ISBN: " + isbn;
+		if(this.autor!=null) {
+			string= string + " " + autor.toString();
+		}
+		return string;
 	}
 	
 	
