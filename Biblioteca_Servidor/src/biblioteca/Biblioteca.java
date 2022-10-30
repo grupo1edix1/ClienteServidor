@@ -2,10 +2,19 @@
 package biblioteca;
 import java.util.*;
 
+/*
+ * Clase biblioteca en la que almacena los libros
+ */
 public class Biblioteca {
+	
+	/*
+	 * biblioteca, colección de libros 
+	 */
 	private ArrayList<Libro> biblioteca = new ArrayList<Libro>();
+	// Variable control de hilo.
 	private boolean transfer;
 	
+	// Contructor predeterminado en la que incluye varios libros
 	public Biblioteca() {
 		Autor autor1 = new Autor("Joseph", "Conrad");
 		Autor autor2 = new Autor("Herman", "Melville");
@@ -20,6 +29,7 @@ public class Biblioteca {
 		addLibro(libro4);
 	}
 	
+	// Control de hilos en espera, con metodo sincronizado con el uso de wait(), controlando el valor de la variable transfer
 	public synchronized String permiso() {
         while (transfer) {
             try {
@@ -36,17 +46,20 @@ public class Biblioteca {
         return returnPacket;
     }
 	
+	// Liberación de proximo hilo en espera con el uso de notify()
 	public synchronized void resetearCola() {
 		notify();
 		transfer = false;
 	}
 	
+	// Se añade libro y se liberan hilos en espera.
 	public synchronized void addLibro(Libro libro) {
 		this.biblioteca.add(libro);
 		transfer = false;
 		notify();
 	}
 	
+	//Busca de libro por titulo
 	public Libro findTitulo(String titulo){
 		Libro libro = null;
 		for (Libro element : this.biblioteca) {
@@ -57,6 +70,7 @@ public class Biblioteca {
 		return libro;
 	}
 	
+	//Búsqueda de libros por ISBN
 	public Libro findIsbn(String isbn){
 		Libro libro = null;
 		for (Libro element : this.biblioteca) {
@@ -67,6 +81,7 @@ public class Biblioteca {
 		return libro;
 	}
 	
+	// Búsqueda de autor por nombre y apellido.
 	public Autor findAutor(String autorNombre, String autorApellido){
 		Autor autor = null;
 		for (Libro element : this.biblioteca) {
@@ -75,10 +90,6 @@ public class Biblioteca {
 		}
 	}
 		return autor;
-	}
-	
-	public synchronized String aceptarPeticion() {
-		return "Y";
 	}
 	
 	//Getters
