@@ -1,3 +1,4 @@
+//Actualización 30/10
 package biblioteca;
 import java.util.*;
 
@@ -65,6 +66,10 @@ public class Autor {
 		
 		@Override
 		public String toString() {
+			return "Autor [nombre=" + nombre + ", apellido=" + apellido + "]";
+		}
+		
+		public String toStringBio() {
 			return "Autor [nombre=" + nombre + ", apellido=" + apellido + "]\n +"
 					+ this.bibliografiaToString();
 		}

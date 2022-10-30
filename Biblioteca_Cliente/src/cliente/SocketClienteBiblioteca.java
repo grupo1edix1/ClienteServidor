@@ -1,3 +1,4 @@
+//Actualización 30/10
 package cliente;
 
 import java.io.BufferedReader;
@@ -93,7 +94,7 @@ public class SocketClienteBiblioteca {
 					} else{
 						salida.println("4" + "-" + isbnIN +"-"+ tituloIN);
 					}
-					System.out.println("Libro añadido");
+					System.out.println(entradaBuffer.readLine());
 					
 					break;
 				default:

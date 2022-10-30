@@ -1,3 +1,4 @@
+//Actualización 30/10
 package servidor;
 import biblioteca.*;
 
@@ -49,20 +50,28 @@ public class HiloBiblioteca implements Runnable{
 					try {
 					System.out.println("SERVIDOR: El resultado: " + biblioteca.findIsbn(isbn).toString());
 					salida.println(biblioteca.findIsbn(isbn).toString());
-					}catch(Exception e) {
+					}catch(NullPointerException e) {
 						salida.println("No se encontró el libro");
 					}
 					break;					
 				case 2:
-					String titulo = order[1];					
+					String titulo = order[1];
+					try {
 					System.out.println("SERVIDOR: El resultado: " + biblioteca.findTitulo(titulo).toString());
 					salida.println(biblioteca.findTitulo(titulo).toString());
+					}catch(NullPointerException e) {
+						salida.println("No se encontró el libro");
+					}
 					break;					
 				case 3:
 					String nombre = order[1];
-					String apellido = order[2];					
+					String apellido = order[2];
+					try {
 					System.out.println("SERVIDOR: El resultado: " + biblioteca.findAutor(nombre, apellido).bibliografiaToString());
 					salida.println(biblioteca.findAutor(nombre, apellido).bibliografiaToString());
+					}catch(NullPointerException e) {
+						salida.println("No se encontró el autor");
+					}
 					break;
 				case 4:					
 					System.out.println("Recibiendo información de Cliente_" + numCliente);
@@ -75,24 +84,31 @@ public class HiloBiblioteca implements Runnable{
 					String tituloAdd = order[2];
 					Libro libro;
 					Autor autor;
-					if (order.length>3) {
-						String nombreAdd = order[3];
-						String apellidoAdd = order[4];
-						if (biblioteca.findAutor(nombreAdd, apellidoAdd) != null) {
-							autor = biblioteca.findAutor(nombreAdd,apellidoAdd);
-							libro = new Libro(tituloAdd, isbnAdd, autor);
-							autor.addLibro(libro);
+					if (biblioteca.findIsbn(isbnAdd)==null) {
+						if (order.length>3) {
+							String nombreAdd = order[3];
+							String apellidoAdd = order[4];
+							if (biblioteca.findAutor(nombreAdd, apellidoAdd) != null) {
+								autor = biblioteca.findAutor(nombreAdd,apellidoAdd);
+								libro = new Libro(tituloAdd, isbnAdd, autor);
+								autor.addLibro(libro);
+							}else {
+								autor = new Autor(nombreAdd, apellidoAdd);
+								libro = new Libro(tituloAdd, isbnAdd, autor);
+								autor.addLibro(libro);
+							}
 						}else {
-							autor = new Autor(nombreAdd, apellidoAdd);
-							libro = new Libro(tituloAdd, isbnAdd, autor);
-							autor.addLibro(libro);
+							libro = new Libro(tituloAdd, isbnAdd);
 						}
+						
+						biblioteca.addLibro(libro);					
+						System.out.println("Libro añadido:" + biblioteca.findIsbn(isbnAdd).toString());
+						salida.println("Libro añadido:" + biblioteca.findIsbn(isbnAdd).toString());
 					}else {
-						libro = new Libro(tituloAdd, isbnAdd);
+						System.out.println("ISBN no válido");
+						salida.println("ISBN no válido");
+						biblioteca.resetearCola();
 					}
-					
-					biblioteca.addLibro(libro);					
-					System.out.println("Libro añadido:" + biblioteca.findIsbn(isbnAdd).toString());
 					break;
 				default:
 					salida.println("No válido");

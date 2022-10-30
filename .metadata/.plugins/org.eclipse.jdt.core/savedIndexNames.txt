@@ -1,4 +1,2 @@
 INDEX VERSION 1.131+D:\ITEdix_Programacion_2122\Ejercicios\.metadata\.plugins\org.eclipse.jdt.core
 3352633234.index
-261351921.index
-644860723.index

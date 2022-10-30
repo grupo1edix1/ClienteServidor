@@ -1,3 +1,4 @@
+//Actualización 30/10
 package biblioteca;
 import java.util.*;
 
@@ -34,6 +35,11 @@ public class Biblioteca {
         String returnPacket = "Introduzca los datos...";        
         return returnPacket;
     }
+	
+	public synchronized void resetearCola() {
+		notify();
+		transfer = false;
+	}
 	
 	public synchronized void addLibro(Libro libro) {
 		this.biblioteca.add(libro);
